@@ -585,26 +585,24 @@
             document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        // --- LOGIKA FORM BUKU TAMU KE GOOGLE SHEETS ---
+      // --- LOGIKA FORM BUKU TAMU KE GOOGLE SHEETS ---
         const scriptURL = 'https://script.google.com/macros/s/AKfycbz6aZL9Hj1TPJFcf6hd4TZeE4KTrslVzAKvtSFjq_ycnmwsY5sQ3qyvJqdJnaepub_p/exec';
-        
-        // PERBAIKAN: Menggunakan getElementById agar form pasti ditemukan
         const form = document.getElementById('guestbook-form');
         const btnSubmit = document.getElementById('submit-btn');
         const successMsg = document.getElementById('success-msg');
 
         form.addEventListener('submit', e => {
-            e.preventDefault(); 
+            e.preventDefault();
             btnSubmit.innerText = 'Mengirim...';
             btnSubmit.disabled = true;
 
-            // Kita kembali menggunakan FormData standar tanpa URLSearchParams
             const formData = new FormData(form);
+            const data = new URLSearchParams(formData);
 
             fetch(scriptURL, { 
                 method: 'POST', 
-                body: formData
-                // mode: 'no-cors' KITA HAPUS AGAR BISA MELIHAT ERROR ASLI
+                body: data,
+                mode: 'no-cors' // <-- INI KUNCINYA AGAR TIDAK DI-BLOCK CORS OLEH BROWSER
             })
             .then(response => {
                 successMsg.style.display = 'block';
@@ -614,10 +612,10 @@
                 setTimeout(() => { successMsg.style.display = 'none'; }, 6000);
             })
             .catch(error => {
-                console.error('Error dari server!', error.message);
+                console.error('Error!', error.message);
                 btnSubmit.innerText = 'Kirim Ucapan';
                 btnSubmit.disabled = false;
-                alert('Gagal mengirim pesan. Coba cek console browser Anda.');
+                alert('Gagal mengirim pesan, mohon coba lagi nanti.');
             });
         });
     </script>
