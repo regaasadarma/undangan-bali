@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Mepandes</title>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #f7f2ea;
+            --text-gold: #a9834f;
+            --text-maroon: #7a3b2e;
+            --text-dark: #3a3530;
+            --text-muted: #6b6157;
+            --hairline: rgba(169, 131, 79, 0.35);
+            
+            /* Data SVG untuk Sudut Ukiran Bali (Candi Bentar Tiers) */
+            --corner-tl: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45"><path d="M0 45 V0 H45 M6 45 V6 H45 M12 45 V12 H45 M18 45 V18 H45" fill="none" stroke="%23a9834f" stroke-width="1.2" opacity="0.65"/></svg>');
+            --corner-tr: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45"><path d="M45 45 V0 H0 M39 45 V6 H0 M33 45 V12 H0 M27 45 V18 H0" fill="none" stroke="%23a9834f" stroke-width="1.2" opacity="0.65"/></svg>');
+            --corner-bl: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45"><path d="M0 0 V45 H45 M6 0 V39 H45 M12 0 V33 H45 M18 0 V27 H45" fill="none" stroke="%23a9834f" stroke-width="1.2" opacity="0.65"/></svg>');
+            --corner-br: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45"><path d="M45 0 V45 H0 M39 0 V39 H0 M33 0 V33 H0 M27 0 V27 H0" fill="none" stroke="%23a9834f" stroke-width="1.2" opacity="0.65"/></svg>');
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            font-family: 'Lora', serif;
+            color: var(--text-dark);
+            text-align: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Latar Belakang Mandala & Candi Bentar Utama */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image: url('background2.jpeg');
+            background-repeat: repeat;
+            background-size: 480px;
+            background-position: center;
+            opacity: 0.55;
+            z-index: -1;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--text-gold);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .accent-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 500;
+            color: var(--text-maroon);
+            font-size: 2.3rem;
+            margin: 0;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+
+        /* Pembungkus Ornamen */
+        .ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 18px 0;
+        }
+
+        /* --- HALAMAN COVER --- */
+        #cover-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            background-image: url('bunga.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 50;
+            transition: opacity 1s ease-in-out;
+            padding: 20px;
+        }
+
+        .cover-eyebrow {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .cover-title {
+            font-size: 3.4rem;
+            margin-top: 8px;
+            margin-bottom: 10px;
+            font-style: italic;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+        }
+
+        .btn-open {
+            margin-top: 40px;
+            padding: 13px 38px;
+            background-color: var(--text-maroon);
+            color: #f7f2ea;
+            border: none;
+            border-radius: 2px;
+            font-family: 'Lora', serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(122,59,46,0.2);
+        }
+
+        .btn-open:hover {
+            background-color: #5e2e22;
+            transform: translateY(-2px);
+        }
+
+        /* --- MAIN CONTENT & KOTAK CARD --- */
+        #main-content {
+            display: none;
+            padding: 50px 20px;
+        }
+
+        section {
+            min-height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* Latar Belakang Transparan agar pattern background2.jpeg terlihat menembus */
+            background: rgba(255, 253, 250, 0.92);
+            backdrop-filter: blur(3px);
+            border-radius: 4px;
+            padding: 60px 40px;
+            margin: 20px auto 65px auto;
+            max-width: 720px;
+            box-shadow: 0 10px 30px rgba(58, 53, 48, 0.08);
+            position: relative;
+        }
+
+        /* Ornamen Sudut (Corner) Khas Bali pada setiap Card */
+        section::before {
+            content: "";
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            background-image: var(--corner-tl), var(--corner-tr), var(--corner-bl), var(--corner-br);
+            background-position: top left, top right, bottom left, bottom right;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Bingkai Halus Penghubung Sudut */
+        section::after {
+            content: "";
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 1px solid rgba(169, 131, 79, 0.35);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Elemen dalam card diletakkan di atas bingkai */
+        section > * {
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 2.6rem;
+            margin-bottom: 6px;
+            margin-top: 0;
+            font-style: italic;
+        }
+
+        .date-box {
+            margin: 20px 0;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            line-height: 1.9;
+            color: var(--text-dark);
+        }
+
+        /* --- Grup Keluarga --- */
+        .families-list {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .family-card {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            position: relative;
+        }
+        
+        /* Ornamen Pemisah Keluarga */
+        .family-card:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 80px; height: 12px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 12"><line x1="0" y1="6" x2="34" y2="6" stroke="%23a9834f" stroke-width="1" opacity="0.4"/><polygon points="40,2 44,6 40,10 36,6" fill="%23a9834f" opacity="0.8"/><line x1="46" y1="6" x2="80" y2="6" stroke="%23a9834f" stroke-width="1" opacity="0.4"/></svg>');
+            background-repeat: no-repeat;
+        }
+
+        .family-label {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-maroon);
+            font-family: 'Lora', serif;
+            margin-bottom: 6px;
+        }
+
+        .family-parents {
+            font-size: 1.4rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0 0 18px 0;
+        }
+
+        .family-children {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .child-item {
+            font-size: 1.15rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            color: var(--text-gold);
+        }
+
+        /* --- COUNTDOWN & BUKU TAMU CSS --- */
+        .countdown-container {
+            display: flex; gap: 15px; justify-content: center; margin-top: 10px; margin-bottom: 30px; 
+            font-family: 'Cormorant Garamond', serif; color: var(--text-gold); font-size: 2rem; font-weight: 600;
+        }
+        .countdown-item { display: flex; flex-direction: column; align-items: center; }
+        .countdown-label { font-size: 0.8rem; font-family: 'Lora', serif; color: var(--text-muted); font-weight: 400; font-style: italic; letter-spacing: 1px; }
+        
+        .guestbook-form { 
+            width: 100%; max-width: 500px; text-align: left; display: flex; flex-direction: column; gap: 15px; margin: 0 auto; 
+        }
+        .guestbook-form input, .guestbook-form textarea, .guestbook-form select {
+            width: 100%; padding: 14px 15px; border: 1px solid var(--hairline); border-radius: 4px; 
+            font-family: 'Lora', serif; background: rgba(255, 255, 255, 0.6); color: var(--text-dark); font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .guestbook-form input:focus, .guestbook-form textarea:focus, .guestbook-form select:focus {
+            outline: none; border-color: var(--text-gold); background: rgba(255, 255, 255, 0.9);
+        }
+        .btn-submit {
+            padding: 14px 38px; background-color: var(--text-maroon); color: #f7f2ea; border: none; border-radius: 2px;
+            font-family: 'Lora', serif; font-size: 0.85rem; cursor: pointer; letter-spacing: 3px; text-transform: uppercase;
+            transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(122,59,46,0.2); margin-top: 10px; align-self: center;
+        }
+        .btn-submit:hover { background-color: #5e2e22; transform: translateY(-2px); }
+        .btn-submit:disabled { background-color: var(--text-muted); cursor: not-allowed; transform: none; box-shadow: none; }
+
+
+        .map-container {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            max-width: 650px;
+            height: 350px;
+            border: 0;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .btn-map {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 35px;
+            background-color: transparent;
+            color: var(--text-dark);
+            text-decoration: none;
+            border: 1px solid var(--text-dark);
+            border-radius: 2px;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .btn-map:hover {
+            background-color: var(--text-dark);
+            color: white;
+        }
+
+        @media screen and (max-width: 768px) {
+            .cover-title { font-size: 2.5rem; }
+            .accent-text { font-size: 1.9rem !important; }
+            .section-title { font-size: 2rem; }
+            section { padding: 45px 25px; margin: 20px 12px 45px 12px; }
+            .countdown-container { font-size: 1.6rem; gap: 10px; }
+            .map-container iframe { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Halaman Cover -->
+    <div id="cover-page">
+        <p class="cover-eyebrow">Manusa Yadnya</p>
+        <h1 class="cover-title">Upacara Mepandes</h1>
+        
+        <!-- Ornamen Padma (Teratai) Cover -->
+        <div class="ornament">
+            <svg viewBox="0 0 120 30" width="130" height="32">
+                <path d="M60 0 C65 10 75 15 85 15 C75 15 65 20 60 30 C55 20 45 15 35 15 C45 15 55 10 60 0 Z" fill="rgba(169, 131, 79, 0.15)" stroke="var(--text-gold)" stroke-width="1"/>
+                <path d="M60 6 C63 12 68 14 73 15 C68 16 63 18 60 24 C57 18 52 16 47 15 C52 14 57 12 60 6 Z" fill="var(--text-gold)"/>
+                <path d="M35 15 Q 20 15 10 5" fill="none" stroke="var(--text-gold)" stroke-width="1.2"/>
+                <path d="M85 15 Q 100 15 110 5" fill="none" stroke="var(--text-gold)" stroke-width="1.2"/>
+                <path d="M25 15 Q 15 20 5 15" fill="none" stroke="var(--text-gold)" stroke-width="1.2"/>
+                <path d="M95 15 Q 105 20 115 15" fill="none" stroke="var(--text-gold)" stroke-width="1.2"/>
+                <circle cx="10" cy="5" r="1.5" fill="var(--text-gold)"/><circle cx="110" cy="5" r="1.5" fill="var(--text-gold)"/>
+                <circle cx="5" cy="15" r="1.5" fill="var(--text-gold)"/><circle cx="115" cy="15" r="1.5" fill="var(--text-gold)"/>
+            </svg>
+        </div>
+
+        <p style="font-size: 0.85rem; margin-bottom: 4px; margin-top: 20px; color: var(--text-muted);">Kepada Yth.</p>
+        <h2 style="font-size: 1.5rem; color: var(--text-dark); margin-top: 0; font-family: 'Cormorant Garamond', serif;">Bapak/Ibu/Saudara/i Tamu Undangan</h2>
+        <p style="font-size: 0.85rem; max-width: 380px; font-style: italic; color: var(--text-muted); line-height: 1.7;">Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara mepandes.</p>
+
+        <button class="btn-open" onclick="openInvitation()">Buka Undangan</button>
+    </div>
+
+    <!-- Konten Utama -->
+    <div id="main-content">
+
+        <!-- 2. Halaman Intro -->
+        <section data-aos="fade-up" data-aos-duration="1500">
+            <p style="font-size: 0.75rem; letter-spacing: 3px; color: var(--text-gold); text-transform: uppercase;">Kami Mengundang Anda</p>
+            
+            <div class="ornament">
+                <svg viewBox="0 0 120 30" width="100" height="25">
+                    <path d="M60 0 C65 10 75 15 85 15 C75 15 65 20 60 30 C55 20 45 15 35 15 C45 15 55 10 60 0 Z" fill="rgba(169, 131, 79, 0.15)" stroke="var(--text-gold)" stroke-width="1"/>
+                    <path d="M60 6 C63 12 68 14 73 15 C68 16 63 18 60 24 C57 18 52 16 47 15 C52 14 57 12 60 6 Z" fill="var(--text-gold)"/>
+                    <path d="M35 15 Q 20 15 10 5" fill="none" stroke="var(--text-gold)" stroke-width="1"/><path d="M85 15 Q 100 15 110 5" fill="none" stroke="var(--text-gold)" stroke-width="1"/>
+                    <path d="M25 15 Q 15 20 5 15" fill="none" stroke="var(--text-gold)" stroke-width="1"/><path d="M95 15 Q 105 20 115 15" fill="none" stroke="var(--text-gold)" stroke-width="1"/>
+                </svg>
+            </div>
+
+            <p class="accent-text" style="margin-top: 16px;">Upacara Manusa Yadnya</p>
+            <h2 class="section-title">Upacara Mepandes</h2>
+
+            <div class="date-box">
+                Rabu <br>
+                <strong>08 / Oktober / 2025</strong>
+            </div>
+
+            <p style="font-size: 0.95rem; line-height: 1.8; color: var(--text-dark);">Bertempat di<br>Br. Moding Kaja, Desa Candikusuma, Melaya, Jembrana - Bali<br><span style="font-style: italic; font-size: 0.82rem; color: var(--text-muted);">(Sebelah Barat Lapangan Volly Banjar Moding)</span></p>
+        </section>
+
+        <!-- 3. Halaman Sane Mepandes -->
+        <section data-aos="fade-up" data-aos-duration="1500">
+            <h2 class="section-title">Sane Mepandes</h2>
+            
+            <div class="ornament" style="margin-bottom: 35px;">
+                <svg viewBox="0 0 120 30" width="100" height="25">
+                    <path d="M60 0 C65 10 75 15 85 15 C75 15 65 20 60 30 C55 20 45 15 35 15 C45 15 55 10 60 0 Z" fill="rgba(169, 131, 79, 0.15)" stroke="var(--text-gold)" stroke-width="1"/>
+                    <path d="M60 6 C63 12 68 14 73 15 C68 16 63 18 60 24 C57 18 52 16 47 15 C52 14 57 12 60 6 Z" fill="var(--text-gold)"/>
+                    <path d="M35 15 Q 20 15 10 5" fill="none" stroke="var(--text-gold)" stroke-width="1"/><path d="M85 15 Q 100 15 110 5" fill="none" stroke="var(--text-gold)" stroke-width="1"/>
+                    <path d="M25 15 Q 15 20 5 15" fill="none" stroke="var(--text-gold)" stroke-width="1"/><path d="M95 15 Q 105 20 115 15" fill="none" stroke="var(--text-gold)" stroke-width="1"/>
+                </svg>
+            </div>
+
+            <div class="families-list">
+                <div class="family-card">
+                    <p class="family-label">Keluarga</p>
+                    <p class="family-parents">I Wayan Sudiarta &amp; Ni Made Sriani</p>
+                    <div class="family-children">
+                        <div class="child-item">Ni Kadek Ayu Kirana</div>
+                        <div class="child-item">I Komang Bagus Wirawan</div>
+                        <div class="child-item">Ni Ketut Dinda Pradnyani</div>
+                    </div>
+                </div>
+
+                <div class="family-card">
+                    <p class="family-label">Keluarga</p>
+                    <p class="family-parents">I Nyoman Suastika &amp; Ni Luh Puspawati</p>
+                    <div class="family-children">
+                        <div class="child-item">I Wayan Adi Pratama</div>
+                        <div class="child-item">Ni Made Ratih Kusuma</div>
+                        <div class="child-item">I Komang Yoga Saputra</div>
+                    </div>
+                </div>
+
+                <div class="family-card">
+                    <p class="family-label">Keluarga</p>
+                    <p class="family-parents">I Ketut Artana &amp; Ni Kadek Sriasih</p>
+                    <div class="family-children">
+                        <div class="child-item">Ni Wayan Intan Permatasari</div>
+                        <div class="child-item">I Made Dwi Cahyadi</div>
+                        <div class="child-item">Ni Kadek Larasati</div>
+                    </div>
+                </div>
+
+                <div class="family-card">
+                    <p class="family-label">Keluarga</p>
+                    <p class="family-parents">I Gede Suryawan &amp; Ni Wayan Ariyani</p>
+                    <div class="family-children">
+                        <div class="child-item">I Komang Aditya Wibawa</div>
+                        <div class="child-item">Ni Ketut Wulandari</div>
+                        <div class="child-item">I Wayan Dharma Putra</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Halaman Detail Acara -->
+        <section data-aos="fade-up" data-aos-duration="1500">
+            <h2 class="accent-text" style="font-size: 2.6rem; margin-bottom: 10px;">Om Swastyastu</h2>
+            <p style="font-size: 0.95rem; max-width: 580px; margin: 0 auto; line-height: 1.9; color: var(--text-dark);">
+                Atas Asung Kerta Wara Nugraha Ida Sang Hyang Widhi Wasa/Tuhan yang Maha Esa, kami bermaksud mengundang Bapak/Ibu/Saudara/i, pada Acara Manusa Yadnya Mepandes (Potong Gigi) putra-putri kami, yang akan dilaksanakan pada:
+            </p>
+
+            <div class="date-box" style="margin-top: 28px;">
+                Rabu<br><strong style="font-size: 1.15rem;">08 / Oktober / 2025</strong>
+                
+                <!-- Ornamen Diamond Pemisah -->
+                <div class="ornament" style="margin: 10px auto; opacity: 0.7;">
+                    <svg viewBox="0 0 60 12" width="60" height="12">
+                        <line x1="0" y1="6" x2="24" y2="6" stroke="var(--text-gold)" stroke-width="1"/>
+                        <polygon points="30,2 34,6 30,10 26,6" fill="var(--text-gold)"/>
+                        <line x1="36" y1="6" x2="60" y2="6" stroke="var(--text-gold)" stroke-width="1"/>
+                    </svg>
+                </div>
+                
+                Pukul<br><strong style="font-size: 1.15rem;">08.00 wita s/d selesai</strong>
+                
+                <div class="ornament" style="margin: 10px auto; opacity: 0.7;">
+                    <svg viewBox="0 0 60 12" width="60" height="12">
+                        <line x1="0" y1="6" x2="24" y2="6" stroke="var(--text-gold)" stroke-width="1"/>
+                        <polygon points="30,2 34,6 30,10 26,6" fill="var(--text-gold)"/>
+                        <line x1="36" y1="6" x2="60" y2="6" stroke="var(--text-gold)" stroke-width="1"/>
+                    </svg>
+                </div>
+                
+                Bertempat di<br>Br. Moding Kaja, Desa Candikusuma, Melaya, Jembrana - Bali
+            </div>
+
+            <p style="font-size: 0.95rem; max-width: 580px; margin: 28px auto; line-height: 1.9; color: var(--text-dark);">
+                Merupakan suatu kebahagiaan dan kehormatan bagi kami, apabila Bapak/Ibu/Saudara/i, berkenan hadir untuk memberikan doa.<br><br>Atas kehadiran dan doanya kami ucapkan terima kasih.
+            </p>
+            <h2 class="section-title" style="margin-top: 16px; font-size: 1.9rem;">Om Shanti Shanti Shanti Om</h2>
+        </section>
+
+        <!-- 5. Halaman Countdown & Buku Tamu (Formspree) -->
+        <section data-aos="fade-up" data-aos-duration="1500">
+            <h2 class="section-title">Menuju Hari Bahagia</h2>
+            
+            <!-- Countdown -->
+            <div id="countdown" class="countdown-container">
+                <div class="countdown-item"><span id="days">00</span><span class="countdown-label">Hari</span></div>
+                <div>:</div>
+                <div class="countdown-item"><span id="hours">00</span><span class="countdown-label">Jam</span></div>
+                <div>:</div>
+                <div class="countdown-item"><span id="minutes">00</span><span class="countdown-label">Menit</span></div>
+                <div>:</div>
+                <div class="countdown-item"><span id="seconds">00</span><span class="countdown-label">Detik</span></div>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 40px;">Buku Tamu</h2>
+            <div class="ornament" style="margin-bottom: 10px;">
+                <svg viewBox="0 0 120 30" width="80" height="20">
+                    <path d="M60 0 C65 10 75 15 85 15 C75 15 65 20 60 30 C55 20 45 15 35 15 C45 15 55 10 60 0 Z" fill="rgba(169, 131, 79, 0.15)" stroke="var(--text-gold)" stroke-width="1"/>
+                    <path d="M60 6 C63 12 68 14 73 15 C68 16 63 18 60 24 C57 18 52 16 47 15 C52 14 57 12 60 6 Z" fill="var(--text-gold)"/>
+                    <path d="M35 15 Q 20 15 10 5" fill="none" stroke="var(--text-gold)" stroke-width="1"/><path d="M85 15 Q 100 15 110 5" fill="none" stroke="var(--text-gold)" stroke-width="1"/>
+                </svg>
+            </div>
+            <p style="font-size: 0.9rem; margin-bottom: 25px; font-style: italic; color: var(--text-muted);">Ucapkan sesuatu untuk hari bahagia kami...</p>
+
+            <!-- Form Buku Tamu menggunakan Formspree -->
+            <form id="guestbook-form" action="https://formspree.io/f/xbgrbkeb" method="POST" class="guestbook-form">
+                <input type="text" name="nama" placeholder="Nama (Name)" required>
+                
+                <textarea name="ucapan" rows="4" placeholder="Ucapan (Wishes)" required></textarea>
+                
+                <select name="kehadiran" required>
+                    <option value="" disabled selected>Konfirmasi Kehadiran</option>
+                    <option value="Hadir">Hadir (Accept with pleasure)</option>
+                    <option value="Tidak Hadir">Tidak Hadir (Decline with regret)</option>
+                </select>
+
+                <button type="submit" id="submit-btn" class="btn-submit">Kirim Ucapan</button>
+            </form>
+            
+            <!-- Pesan Sukses -->
+            <div id="success-msg" style="display: none; margin-top: 18px; color: #4b7a47; font-style: italic; font-size: 0.95rem; font-weight: 500;">
+                Terima kasih, ucapan Anda berhasil dikirim!
+            </div>
+        </section>
+
+        <!-- 6. Halaman Lokasi / Map -->
+        <section data-aos="fade-up" data-aos-duration="1500">
+            <h2 class="section-title">Lokasi Acara</h2>
+            <div class="ornament" style="margin-bottom: 20px;">
+                <svg viewBox="0 0 120 30" width="100" height="25">
+                    <path d="M60 0 C65 10 75 15 85 15 C75 15 65 20 60 30 C55 20 45 15 35 15 C45 15 55 10 60 0 Z" fill="rgba(169, 131, 79, 0.15)" stroke="var(--text-gold)" stroke-width="1"/>
+                    <path d="M60 6 C63 12 68 14 73 15 C68 16 63 18 60 24 C57 18 52 16 47 15 C52 14 57 12 60 6 Z" fill="var(--text-gold)"/>
+                    <path d="M35 15 Q 20 15 10 5" fill="none" stroke="var(--text-gold)" stroke-width="1"/><path d="M85 15 Q 100 15 110 5" fill="none" stroke="var(--text-gold)" stroke-width="1"/>
+                    <path d="M25 15 Q 15 20 5 15" fill="none" stroke="var(--text-gold)" stroke-width="1"/><path d="M95 15 Q 105 20 115 15" fill="none" stroke="var(--text-gold)" stroke-width="1"/>
+                </svg>
+            </div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3947.5!2d114.5!3d-8.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOMKwMTgnMDAuMCJTIDExNMKwMzAnMDAuMCJF!5e0!3m2!1sen!2sid!4v1620000000000!5m2!1sen!2sid" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <a href="#" class="btn-map">Petunjuk Arah Maps</a>
+        </section>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Animasi Buka Undangan
+        function openInvitation() {
+            const cover = document.getElementById('cover-page');
+            cover.style.opacity = '0';
+
+            setTimeout(() => {
+                cover.style.display = 'none';
+                const mainContent = document.getElementById('main-content');
+                mainContent.style.display = 'block';
+
+                AOS.init({
+                    once: false,
+                    mirror: true,
+                    offset: 80,
+                    duration: 1200
+                });
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1000);
+        }
+
+        // --- LOGIKA COUNTDOWN (16 September 2026) ---
+        const targetDate = new Date("Sep 16, 2026 00:00:00").getTime();
+
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "Hari Acara Telah Tiba!";
+                return;
+            }
+
+            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        }, 1000);
+
+        // --- LOGIKA FORM FORMSPREE (AJAX SUBMISSION) ---
+        var form = document.getElementById("guestbook-form");
+        
+        async function handleSubmit(event) {
+            event.preventDefault();
+            var status = document.getElementById("success-msg");
+            var btnSubmit = document.getElementById("submit-btn");
+            
+            btnSubmit.innerText = "Mengirim...";
+            btnSubmit.disabled = true;
+
+            var data = new FormData(event.target);
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    status.style.display = "block";
+                    status.innerText = "Terima kasih, ucapan Anda berhasil dikirim!";
+                    form.reset();
+                    btnSubmit.innerText = "Kirim Ucapan";
+                    btnSubmit.disabled = false;
+                    setTimeout(() => { status.style.display = 'none'; }, 6000);
+                } else {
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            alert(data["errors"].map(error => error["message"]).join(", "));
+                        } else {
+                            alert("Oops! Terjadi kesalahan saat mengirim.");
+                        }
+                        btnSubmit.innerText = "Kirim Ucapan";
+                        btnSubmit.disabled = false;
+                    })
+                }
+            }).catch(error => {
+                alert("Oops! Terjadi kesalahan jaringan.");
+                btnSubmit.innerText = "Kirim Ucapan";
+                btnSubmit.disabled = false;
+            });
+        }
+        
+        form.addEventListener("submit", handleSubmit);
+    </script>
+</body>
+</html>
