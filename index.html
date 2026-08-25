@@ -78,6 +78,32 @@
             margin: 18px 0;
         }
 
+        /* --- PENGATURAN SERAGAM FOTO KELUARGA & FILTER WARNA --- */
+        .family-photo-container {
+            width: 100%;
+            max-width: 260px;
+            height: 180px; /* Ukuran tinggi seragam untuk semua foto */
+            margin: 0 auto 15px auto;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--hairline);
+            box-shadow: 0 4px 12px rgba(58, 53, 48, 0.1);
+        }
+
+        .family-photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Membuat foto memenuhi kotak secara pas tanpa gepeng */
+            
+            /* FILTER WARNA CSS: Menyamakan tone warna agar tidak aneh/terlalu kontras */
+            filter: brightness(1.02) contrast(1.05) saturate(0.95); 
+            transition: transform 0.4s ease;
+        }
+
+        .family-photo-container img:hover {
+            transform: scale(1.03);
+        }
+
         /* --- HALAMAN COVER --- */
         #cover-page {
             height: 100vh;
@@ -379,10 +405,10 @@
                 <strong>6 / September / 2026</strong>
             </div>
 
-            <p style="font-size: 0.95rem; line-height: 1.8; color: var(--text-dark);">Bertempat di<br>BR. DINAS TEGAL, Desa kubutambahan, Kec. Buleleng, Kab. Buleleng - Bali<br><span style="font-style: italic; font-size: 0.82rem; color: var(--text-muted);">(Sebelah Barat Lapangan Volly Banjar Moding)</span></p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: var(--text-dark);">Bertempat di<br>BR. DINAS TEGAL, Desa kubutambahan, Kec. Buleleng, Kab. Buleleng - Bali<br><span style="font-style: italic; font-size: 0.82rem; color: var(--text-muted);"></span></p>
         </section>
 
-        <!-- 3. Halaman Sane Mepandes -->
+        <!-- 3. Halaman Sane Mepandes (DILENGKAPI FOTO KELUARGA SERAGAM & FILTER) -->
         <section data-aos="fade-up" data-aos-duration="1500">
             <h2 class="section-title">Sane Mepandes</h2>
             
@@ -396,7 +422,11 @@
             </div>
 
             <div class="families-list">
+                <!-- Keluarga 1 -->
                 <div class="family-card">
+                    <div class="family-photo-container">
+                        <img src="keluarga1.jpg" alt="Keluarga I Wayan Sudiarta">
+                    </div>
                     <p class="family-label">Keluarga</p>
                     <p class="family-parents">I Wayan Sudiarta &amp; Ni Made Sriani</p>
                     <div class="family-children">
@@ -406,33 +436,30 @@
                     </div>
                 </div>
 
+                <!-- Keluarga 2 -->
                 <div class="family-card">
+                    <div class="family-photo-container">
+                        <img src="keluarga2.jpg" alt="Keluarga I Nyoman Suastika">
+                    </div>
                     <p class="family-label">Keluarga</p>
-                    <p class="family-parents">I Nyoman Suastika &amp; Ni Luh Puspawati</p>
+                    <p class="family-parents">I Nyoman Seni Wijaya &amp; Luh Sukaroni</p>
                     <div class="family-children">
-                        <div class="child-item">I Wayan Adi Pratama</div>
-                        <div class="child-item">Ni Made Ratih Kusuma</div>
-                        <div class="child-item">I Komang Yoga Saputra</div>
+                        <div class="child-item">Putu Rona Litana Wijaya</div>
+                        <div class="child-item">Kadek Agus Harry Wijaya</div>
+                        <div class="child-item">I Nyoman Kresnha Knowler Wijaya Junior</div>
                     </div>
                 </div>
 
+                <!-- Keluarga 3 -->
                 <div class="family-card">
-                    <p class="family-label">Keluarga</p>
-                    <p class="family-parents">I Ketut Artana &amp; Ni Kadek Sriasih</p>
-                    <div class="family-children">
-                        <div class="child-item">Ni Wayan Intan Permatasari</div>
-                        <div class="child-item">I Made Dwi Cahyadi</div>
-                        <div class="child-item">Ni Kadek Larasati</div>
+                    <div class="family-photo-container">
+                        <img src="keluarga3.jpg" alt="Keluarga I Ketut Artana">
                     </div>
-                </div>
-
-                <div class="family-card">
                     <p class="family-label">Keluarga</p>
-                    <p class="family-parents">I Gede Suryawan &amp; Ni Wayan Ariyani</p>
+                    <p class="family-parents">Ketut Budi Wisrama &amp; Ketut Suartini</p>
                     <div class="family-children">
-                        <div class="child-item">I Komang Aditya Wibawa</div>
-                        <div class="child-item">Ni Ketut Wulandari</div>
-                        <div class="child-item">I Wayan Dharma Putra</div>
+                        <div class="child-item">Gede Bayu Rama Saputra</div>
+                        <div class="child-item">⁠Kadek Hari Swastikadi Putra</div>
                     </div>
                 </div>
             </div>
@@ -538,12 +565,10 @@
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // --- LOGIKA BUKA UNDANGAN & OTOMATIS PUTAR MUSIK TANPA TOMBOL KONTROL ---
         function openInvitation() {
             const cover = document.getElementById('cover-page');
             const music = document.getElementById('bg-music');
 
-            // Memutar musik secara otomatis di latar belakang saat tombol diklik
             music.play().catch(error => {
                 console.log("Audio play diblokir browser:", error);
             });
