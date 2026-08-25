@@ -374,7 +374,7 @@
         </div>
 
         <p style="font-size: 0.85rem; margin-bottom: 4px; margin-top: 20px; color: var(--text-muted);">Kepada Yth.</p>
-        <h2 style="font-size: 1.5rem; color: var(--text-dark); margin-top: 0; font-family: 'Cormorant Garamond', serif;">Bapak/Ibu/Saudara/i Tamu Undangan</h2>
+        <h2 id="guest-name" style="font-size: 1.5rem; color: var(--text-dark); margin-top: 0; font-family: 'Cormorant Garamond', serif;">Bapak/Ibu/Saudara/i Tamu Undangan</h2>
         <p style="font-size: 0.85rem; max-width: 380px; font-style: italic; color: var(--text-muted); line-height: 1.7;">Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara mepandes.</p>
 
         <button class="btn-open" onclick="openInvitation()">Buka Undangan</button>
@@ -700,6 +700,14 @@
     function closeModal() {
         modal.style.display = 'none';
     }
+
+    // --- AMBIL NAMA TAMU DARI URL SECARA DINAMIS ---
+const urlParams = new URLSearchParams(window.location.search);
+const guestName = urlParams.get('to');
+
+if (guestName) {
+    document.getElementById('guest-name').innerText = guestName;
+}
     </script>
 </body>
 </html>
