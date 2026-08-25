@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Undangan Mepandes</title>
 
-    <!-- TAMBAHKAN KODE INI -->
     <link rel="icon" href="icon.png" type="image/png">
 
     <!-- Font -->
@@ -78,30 +77,59 @@
             margin: 18px 0;
         }
 
-        /* --- PENGATURAN SERAGAM FOTO KELUARGA & FILTER WARNA --- */
+        /* --- STYLING GALERI FOTO KELUARGA (UKURAN BESAR & LABEL) --- */
+        .photo-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .photo-card {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--hairline);
+            border-radius: 6px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(58, 53, 48, 0.05);
+        }
+
         .family-photo-container {
             width: 100%;
-            max-width: 260px;
-            height: 180px; /* Ukuran tinggi seragam untuk semua foto */
-            margin: 0 auto 15px auto;
+            height: 380px; /* Ukuran tinggi foto diperbesar */
             border-radius: 4px;
             overflow: hidden;
-            border: 1px solid var(--hairline);
-            box-shadow: 0 4px 12px rgba(58, 53, 48, 0.1);
+            background-color: #eee;
         }
 
         .family-photo-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Membuat foto memenuhi kotak secara pas tanpa gepeng */
-            
-            /* FILTER WARNA CSS: Menyamakan tone warna agar tidak aneh/terlalu kontras */
+            object-fit: cover;
             filter: brightness(1.02) contrast(1.05) saturate(0.95); 
             transition: transform 0.4s ease;
         }
 
         .family-photo-container img:hover {
             transform: scale(1.03);
+        }
+
+        .family-label {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-maroon);
+            font-family: 'Lora', serif;
+            margin-top: 14px;
+            margin-bottom: 4px;
+        }
+
+        .photo-caption {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
         }
 
         /* --- HALAMAN COVER --- */
@@ -225,55 +253,26 @@
             color: var(--text-dark);
         }
 
+        /* Daftar Nama Sane Mepandes */
         .families-list {
             margin-top: 10px;
             width: 100%;
-        }
-
-        .family-card {
-            margin-bottom: 30px;
-            padding-bottom: 30px;
-            position: relative;
-        }
-        
-        .family-card:not(:last-child)::after {
-            content: "";
-            position: absolute;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 80px; height: 12px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 12"><line x1="0" y1="6" x2="34" y2="6" stroke="%23a9834f" stroke-width="1" opacity="0.4"/><polygon points="40,2 44,6 40,10 36,6" fill="%23a9834f" opacity="0.8"/><line x1="46" y1="6" x2="80" y2="6" stroke="%23a9834f" stroke-width="1" opacity="0.4"/></svg>');
-            background-repeat: no-repeat;
-        }
-
-        .family-label {
-            font-size: 0.72rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--text-maroon);
-            font-family: 'Lora', serif;
-            margin-bottom: 6px;
-        }
-
-        .family-parents {
-            font-size: 1.4rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin: 0 0 18px 0;
-        }
-
-        .family-children {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .child-item {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-family: 'Cormorant Garamond', serif;
             font-weight: 500;
             color: var(--text-gold);
+            padding: 8px 0;
+            /* border-bottom: 1px dashed var(--hairline);s */
+        }
+
+        .child-item:last-child {
+            border-bottom: none;
         }
 
         .countdown-container {
@@ -351,7 +350,7 @@
 </head>
 <body>
 
-    <!-- ELEMEN AUDIO TERSEMBUNYI (TANPA TOMBOL KONTROL DI LAYAR) -->
+    <!-- ELEMEN AUDIO TERSEMBUNYI -->
     <audio id="bg-music" loop>
         <source src="backsound.mp3" type="audio/mp3">
     </audio>
@@ -405,10 +404,10 @@
                 <strong>6 / September / 2026</strong>
             </div>
 
-            <p style="font-size: 0.95rem; line-height: 1.8; color: var(--text-dark);">Bertempat di<br>BR. DINAS TEGAL, Desa kubutambahan, Kec. Buleleng, Kab. Buleleng - Bali<br><span style="font-style: italic; font-size: 0.82rem; color: var(--text-muted);"></span></p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: var(--text-dark);">Bertempat di<br>Banjar Dinas Tegal, Gang nakula No 4 Desa Kubutambahan, Kecamatan Kubutambahan Buleleng Bali<br><span style="font-style: italic; font-size: 0.82rem; color: var(--text-muted);"></span></p>
         </section>
 
-        <!-- 3. Halaman Sane Mepandes (DILENGKAPI FOTO KELUARGA SERAGAM & FILTER) -->
+        <!-- 3. Halaman Sane Mepandes (Daftar Nama) -->
         <section data-aos="fade-up" data-aos-duration="1500">
             <h2 class="section-title">Sane Mepandes</h2>
             
@@ -422,45 +421,62 @@
             </div>
 
             <div class="families-list">
-                <!-- Keluarga 1 -->
-                <div class="family-card">
+                <div class="child-item">Kadek Widiartama</div>
+                <div class="child-item">Nyoman Seni Wijaya</div>
+                <div class="child-item">Ketut Budi Wiserama</div>
+                <div class="child-item">Gede Joni Artana Tangkas</div>
+                <div class="child-item">Kadek Ayu Handayani</div>
+                <div class="child-item">Putu Rona Litana Wijaya</div>
+                <div class="child-item">Kadek Agus Harry Wijaya</div>
+                <div class="child-item">Gede Bayu Rama Saputra</div>
+                <div class="child-item">Luh Celvin Dwivayani</div>
+                <div class="child-item">Putu Adinata Artana</div>
+                <div class="child-item">Kadek Hari Swastikadi Putra</div>
+                <div class="child-item">I Nyoman Kresnha Knowler Wijaya Junior</div>
+                <div class="child-item">I Kadek Gio Dwivayana</div>
+                <div class="child-item">Kadek Devanata Artana</div>
+            </div>
+        </section>
+
+        <!-- SECTION GALERI FOTO KELUARGA TERPISAH (DENGAN LABEL KELUARGA KEMBALI) -->
+        <section data-aos="fade-up" data-aos-duration="1500">
+            <h2 class="section-title">Foto Keluarga</h2>
+            <p style="font-size: 0.9rem; margin-bottom: 25px; font-style: italic; color: var(--text-muted);">Foto keluarga yang melaksanakan upacara Mepandes</p>
+
+            <div class="ornament" style="margin-bottom: 20px;">
+                <svg viewBox="0 0 120 30" width="80" height="20">
+                    <path d="M60 0 C65 10 75 15 85 15 C75 15 65 20 60 30 C55 20 45 15 35 15 C45 15 55 10 60 0 Z" fill="rgba(169, 131, 79, 0.15)" stroke="var(--text-gold)" stroke-width="1"/>
+                    <path d="M60 6 C63 12 68 14 73 15 C68 16 63 18 60 24 C57 18 52 16 47 15 C52 14 57 12 60 6 Z" fill="var(--text-gold)"/>
+                    <path d="M35 15 Q 20 15 10 5" fill="none" stroke="var(--text-gold)" stroke-width="1"/><path d="M85 15 Q 100 15 110 5" fill="none" stroke="var(--text-gold)" stroke-width="1"/>
+                </svg>
+            </div>
+
+            <div class="photo-grid">
+                <!-- Card 1 -->
+                <div class="photo-card">
                     <div class="family-photo-container">
-                        <img src="keluarga1.jpg" alt="Keluarga I Wayan Sudiarta">
+                        <img src="keluarga1.jpg" alt="Keluarga Kadek Widiartama">
                     </div>
-                    <p class="family-label">Keluarga</p>
-                    <p class="family-parents">I Wayan Sudiarta &amp; Ni Made Sriani</p>
-                    <div class="family-children">
-                        <div class="child-item">Ni Kadek Ayu Kirana</div>
-                        <div class="child-item">I Komang Bagus Wirawan</div>
-                        <div class="child-item">Ni Ketut Dinda Pradnyani</div>
-                    </div>
+                    <div class="family-label">Keluarga</div>
+                    <div class="photo-caption">IKadek Widiartama &amp; Luh Sri Kasianingsih</div>
                 </div>
 
-                <!-- Keluarga 2 -->
-                <div class="family-card">
+                <!-- Card 2 -->
+                <div class="photo-card">
                     <div class="family-photo-container">
-                        <img src="keluarga2.jpg" alt="Keluarga I Nyoman Seni Wijaya">
+                        <img src="keluarga2.jpg" alt="Keluarga I Nyoman Suastika">
                     </div>
-                    <p class="family-label">Keluarga</p>
-                    <p class="family-parents">I Nyoman Seni Wijaya &amp; Luh Sukaroni</p>
-                    <div class="family-children">
-                        <div class="child-item">Putu Rona Litana Wijaya</div>
-                        <div class="child-item">Kadek Agus Harry Wijaya</div>
-                        <div class="child-item">I Nyoman Kresnha Knowler Wijaya Junior</div>
-                    </div>
+                    <div class="family-label">Keluarga</div>
+                    <div class="photo-caption">I Nyoman Seni Wijaya &amp; Luh Sukaroni</div>
                 </div>
 
-                <!-- Keluarga 3 -->
-                <div class="family-card">
+                <!-- Card 3 -->
+                <div class="photo-card">
                     <div class="family-photo-container">
-                        <img src="keluarga3.jpg" alt="Keluarga Ketut Budi Wisrama">
+                        <img src="keluarga3.jpg" alt="Keluarga I Ketut Artana">
                     </div>
-                    <p class="family-label">Keluarga</p>
-                    <p class="family-parents">Ketut Budi Wisrama &amp; Ketut Suartini</p>
-                    <div class="family-children">
-                        <div class="child-item">Gede Bayu Rama Saputra</div>
-                        <div class="child-item">⁠Kadek Hari Swastikadi Putra</div>
-                    </div>
+                    <div class="family-label">Keluarga</div>
+                    <div class="photo-caption">Ketut Budi Wisrama &amp; Ketut Suartini</div>
                 </div>
             </div>
         </section>
@@ -493,7 +509,7 @@
                     </svg>
                 </div>
                 
-                Bertempat di<br>BR. DINAS TEGAL, Desa kubutambahan, Kec. Buleleng, Kab. Buleleng - Bali
+                Bertempat di<br>Banjar Dinas Tegal, Gang nakula No 4 Desa Kubutambahan, Kecamatan Kubutambahan Buleleng Bali
             </div>
 
             <p style="font-size: 0.95rem; max-width: 580px; margin: 28px auto; line-height: 1.9; color: var(--text-dark);">
